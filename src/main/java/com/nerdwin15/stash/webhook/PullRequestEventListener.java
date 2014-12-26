@@ -5,6 +5,8 @@ import com.atlassian.stash.event.pull.PullRequestEvent;
 import com.atlassian.stash.event.pull.PullRequestOpenedEvent;
 import com.atlassian.stash.event.pull.PullRequestReopenedEvent;
 import com.atlassian.stash.event.pull.PullRequestRescopedEvent;
+import com.atlassian.stash.repository.Repository;
+import com.atlassian.stash.setting.Settings;
 import com.nerdwin15.stash.webhook.service.SettingsService;
 import com.nerdwin15.stash.webhook.service.eligibility.EligibilityFilterChain;
 import com.nerdwin15.stash.webhook.service.eligibility.EventContext;
@@ -51,6 +53,15 @@ public class PullRequestEventListener {
   public void onPullRequestReopened(PullRequestReopenedEvent event) {
     handleEvent(event);
   }
+
+  /**
+   * Event listener that is notified when source or target ref changes
+   * @param event The pull request event
+   */
+  @EventListener
+  public void onPullRequestRescoped(PullRequestRescopedEvent event) {
+    handleEvent(event);
+  }
   
   /**
    * Actually handles the event that was triggered. 
@@ -58,22 +69,20 @@ public class PullRequestEventListener {
    * @param event The event to be handled
    */
   protected void handleEvent(PullRequestEvent event) {
-//    if (settingsService.getSettings(event.getPullRequest().getToRef()
-//        .getRepository()) == null) {
-//      return;
-//    }
-//
-//    Get branch name from stash ref 'project/repo:refs/heads/master'
-//    String strRef = event.getPullRequest().getFromRef().toString()
-//        .replaceFirst(".*refs/heads/", "");
-//    String strSha1 = event.getPullRequest().getFromRef().getLatestChangeset();
-//
-//    EventContext context = new EventContext(event,
-//        event.getPullRequest().getToRef().getRepository(),
-//        event.getUser().getName());
-//
-//    if (filterChain.shouldDeliverNotification(context))
-//      notifier.notifyBackground(context.getRepository(), strRef, strSha1);
+    if (settingsService.getSettings(event.getPullRequest().getToRef().getRepository()) == null) {
+      return;
+    }
+
+    // Get branch name from stash ref 'project/repo:refs/heads/master'
+    String toRef = event.getPullRequest().getToRef().toString().replaceFirst(".*refs/heads/", "");
+    String sha1 = event.getPullRequest().getFromRef().getLatestChangeset();
+
+    EventContext context = new EventContext(event,
+            event.getPullRequest().getFromRef().getRepository(),
+            event.getUser().getName());
+
+
+    if (filterChain.shouldDeliverNotification(context))
+      notifier.notifyBackground(context.getRepository(), toRef, sha1);
   }
-  
 }

@@ -100,6 +100,42 @@
         {(($errors) ? '<div class="error">' + $errors['branchOptionsBranches'] + '</div>' : '')|noAutoescape}
     </div>
 
+    {call widget.aui.form.checkbox}
+            {param id: 'triggerOnPullRequestOpened' /}
+            {param checked: $config['triggerOnPullRequestOpened'] /}
+            {param labelContent}
+                {stash_i18n('stash.webhook.triggerOnPullRequestOpened.label', 'Trigger for Opened Pull Requests')}
+            {/param}
+            {param labelHtml}
+                {stash_i18n('stash.webhook.triggerOnPullRequestOpened.label', 'Trigger for Opened Pull Requests')}
+            {/param}
+            {param description: stash_i18n('stash.webhook.triggerOnPullRequestOpened.description', 'Trigger for Opened Pull Requests.') /}
+    {/call}
+
+    {call widget.aui.form.checkbox}
+                {param id: 'triggerOnPullRequestRescopedFrom' /}
+                {param checked: $config['triggerOnPullRequestRescopedFrom'] /}
+                {param labelContent}
+                    {stash_i18n('stash.webhook.triggerOnPullRequestRescopedFrom.label', 'Trigger for changes in the source branch of an open Pull Request.')}
+                {/param}
+                {param labelHtml}
+                    {stash_i18n('stash.webhook.triggerOnPullRequestRescopedFrom.label', 'Trigger for changes in the source branch of an open Pull Request.')}
+                {/param}
+                {param description: stash_i18n('stash.webhook.triggerOnPullRequestRescopedFrom.description', 'Trigger for changes in the source branch of an open Pull Request.') /}
+    {/call}
+
+    {call widget.aui.form.checkbox}
+                {param id: 'triggerOnPullRequestRescopedTo' /}
+                {param checked: $config['triggerOnPullRequestRescopedTo'] /}
+                {param labelContent}
+                    {stash_i18n('stash.webhook.triggerOnPullRequestRescopedTo.label', 'Trigger for changes in the target branch of an open Pull Request.')}
+                {/param}
+                {param labelHtml}
+                    {stash_i18n('stash.webhook.triggerOnPullRequestRescopedTo.label', 'Trigger for changes in the target branch of an open Pull Request.')}
+                {/param}
+                {param description: stash_i18n('stash.webhook.triggerOnPullRequestRescopedTo.description', 'Trigger for changes in the target branch of an open Pull Request.') /}
+    {/call}
+
     <script>
         require('plugin/jenkins/test').onReady();
     </script>

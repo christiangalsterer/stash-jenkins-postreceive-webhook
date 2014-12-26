@@ -77,6 +77,21 @@ public class Notifier implements DisposableBean {
    */
   public static final String BRANCH_OPTIONS_BRANCHES = "branchOptionsBranches";
 
+  /**
+   * Field name for pull request opened property
+   */
+  public static final String TRIGGER_FOR_PULL_REQUEST_OPENED = "triggerOnPullRequestOpened";
+
+  /**
+   * Field name for pull request rescoped from branch property
+   */
+  public static final String TRIGGER_FOR_PULL_REQUEST_RESCOPED_FROM = "triggerOnPullRequestRescopedFrom";
+
+  /**
+   * Field name for pull request rescoped to branch property
+   */
+  public static final String TRIGGER_FOR_PULL_REQUEST_RESCOPED_TO = "triggerOnPullRequestRescopedTo";
+
   private static final Logger LOGGER = 
       LoggerFactory.getLogger(Notifier.class);
   private static final String URL_SHORT = "%s/git/notifyCommit?url=%s";
